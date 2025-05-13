@@ -2,7 +2,7 @@ import {
 	AWS_ACCESS_KEY_ID,
 	AWS_SECRET_ACCESS_KEY,
 	AWS_SESSION_TOKEN,
-	BEDROCK_REGION,
+	AWS_REGION,
 	NODE_ENV
 } from '$env/static/private';
 import {
@@ -13,7 +13,7 @@ import {
 
 // Bedrockのクライアントを作成
 const bedrockRuntimeClient = new BedrockRuntimeClient({
-	region: BEDROCK_REGION,
+	region: AWS_REGION,
 	credentials:
 		NODE_ENV === 'development'
 			? {

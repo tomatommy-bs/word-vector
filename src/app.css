@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import '@fontsource/fira-mono';
 @plugin '@tailwindcss/typography';
+@plugin "daisyui";
 
 :root {
 	--font-body:

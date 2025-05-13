@@ -5,24 +5,26 @@
 
 <div class="container mx-auto">
 	<form method="POST">
-		<label for="text"
+		<label class="input" for="text"
 			>テキスト
-			<input class="rounded-md border" type="text" id="text" name="text" />
+			<input class="grow" type="text" id="text" name="text" />
 		</label>
 
-		<button type="submit">submit</button>
+		<button class="btn btn-neutral" type="submit">submit</button>
 	</form>
 
 	{#if form?.vector}
-		<table>
+		<table class="table">
 			<thead>
 				<tr>
-					<th> vector </th>
+					<th>#</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each form.vector as v}
+				{#each form.vector as v, idx}
 					<tr>
+						<td>{idx}</td>
 						<td>
 							{v}
 						</td>

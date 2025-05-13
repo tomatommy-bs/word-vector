@@ -13,7 +13,10 @@
 				<a href="/" class="uppercase">word vector</a>
 			</li>
 			<li>
-				<a href="/labo">ベクトル化実験室</a>
+				<a href="/vectorize">ベクトル化実験室</a>
+			</li>
+			<li>
+				<a href="/cosine">コサイン類似度実験室</a>
 			</li>
 		</ul>
 	</nav>
