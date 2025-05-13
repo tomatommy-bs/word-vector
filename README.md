@@ -1,38 +1,52 @@
-# sv
+# word vector game
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## ルール
 
-## Creating a project
+### ゲーム概要
 
-If you're seeing this, you've probably already done this step. Congrats!
+与えられたお題に基づき、自然言語のベクトル演算によって導き出される言葉を当てるゲームです。Amazon Bedrockの強力な自然言語処理モデルを活用し、言葉の意味合いや関係性を数値化することで、直感的ではないユニークな連想ゲーム体験を提供します。
 
-```bash
-# create a new project in the current directory
-npx sv create
+### 基本ルール
 
-# create a new project in my-app
-npx sv create my-app
-```
+1.  **お題の提示:**
 
-## Developing
+    - ゲーム開始時、または各ラウンドごとに、お題となる言葉の演算式が提示されます。
+    - 演算式は、複数の言葉と算術記号（加算 `+`、減算 `-` など）で構成されます。
+    - 例：`野球 + グローブ - 投げる = ?`
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+2.  **解答の入力:**
 
-```bash
-npm run dev
+    - プレイヤーは、お題の `?` に当てはまる言葉をテキスト入力欄に入力します。
+    - 入力する言葉は、名詞、動詞、形容詞など、一般的な自然言語の単語とします。
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+3.  **正誤判定:**
 
-## Building
+    - プレイヤーが入力した言葉は、Amazon Bedrockによってベクトル化されます。
+    - お題の演算式に含まれる言葉も同様にベクトル化され、演算が実行されます。
+    - 入力された言葉のベクトルと、演算結果のベクトルとの類似度が計算されます。
+    - 最も類似度が高い言葉が「正解」とみなされます。
 
-To create a production version of your app:
+4.  **結果表示:**
+    - 入力された言葉、正解（最も類似度の高い言葉）、類似度、および正誤の結果が表示されます。
+    - 不正解の場合、正解に近かった言葉の候補がいくつか提示されることもあります。
 
-```bash
-npm run build
-```
+### 詳細ルールと考慮事項
 
-You can preview the production build with `npm run preview`.
+- **ベクトルの類似度計算方法:**
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+  - コサイン類似度など、適切なベクトル間の類似度計算方法を採用します。
+  - 類似度の閾値を設けることで、曖昧な解答に対する許容度を調整できます。
+
+- **同義語・類義語の扱い:**
+
+  - 完全一致でなくても、意味が近い言葉は部分的に正解と認める、またはヒントとして提示するなどの工夫が考えられます。
+  - 例えば、「ボール」に対して「球」と入力された場合など。
+
+## システム設計
+
+### システムアーキテクチャ
+
+- フロントエンド: sveltekit
+- バックエンド: Node.js
+- データベース: DynamoDB
+- モデル: Amazon Bedrock
