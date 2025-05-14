@@ -1,28 +1,11 @@
 import {
-	AWS_ACCESS_KEY_ID,
-	AWS_SECRET_ACCESS_KEY,
-	AWS_SESSION_TOKEN,
-	AWS_REGION,
-	NODE_ENV
-} from '$env/static/private';
-import {
 	BedrockRuntimeClient,
 	InvokeModelCommand,
 	type InvokeModelCommandInput
 } from '@aws-sdk/client-bedrock-runtime';
 
 // Bedrockのクライアントを作成
-const bedrockRuntimeClient = new BedrockRuntimeClient({
-	region: AWS_REGION,
-	credentials:
-		NODE_ENV === 'development'
-			? {
-					accessKeyId: AWS_ACCESS_KEY_ID,
-					secretAccessKey: AWS_SECRET_ACCESS_KEY,
-					sessionToken: AWS_SESSION_TOKEN
-				}
-			: undefined
-});
+const bedrockRuntimeClient = new BedrockRuntimeClient();
 const config = {
 	defaultModel: 'amazon.titan-embed-text-v1'
 } as const;
