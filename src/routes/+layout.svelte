@@ -1,7 +1,41 @@
 <script lang="ts">
+	import { Hub } from 'aws-amplify/utils';
 	import '../app.css';
+	import { getCurrentUser, signInWithRedirect, signOut } from 'aws-amplify/auth';
 
 	let { children } = $props();
+
+	Hub.listen('auth', async ({ payload }) => {
+		console.log(payload);
+		switch (payload.event) {
+			case 'signInWithRedirect':
+				getUser();
+				break;
+		}
+	});
+
+	function handleSignInClick() {
+		signInWithRedirect();
+	}
+
+	function handleSignOutClick() {
+		signOut();
+	}
+
+	let isAuthorizedUser = false;
+
+	async function getUser() {
+		try {
+			const user = await getCurrentUser();
+			if (user.userId) {
+				isAuthorizedUser = true;
+			}
+		} catch (Exception) {
+			isAuthorizedUser = false;
+		}
+	}
+
+	getUser().then(console.log);
 </script>
 
 <div>
@@ -28,6 +62,8 @@
 				<a href="/vector-calc/sub">減算</a>
 			</li>
 		</ul>
+		<button type="button" onclick={handleSignOutClick}> ログアウト </button>
+		<button type="button" onclick={handleSignInClick}> ログイン </button>
 	</nav>
 	<main>
 		{@render children()}
